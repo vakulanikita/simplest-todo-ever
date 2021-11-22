@@ -1,7 +1,7 @@
-import '../styles/globals.css'
+import { Component } from "react"
 
-function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+export default class MyApp extends Component {
+  render() {
+    return <h1>Hello, world!</h1>
+  }
 }
-
-export default MyApp

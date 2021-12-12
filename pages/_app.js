@@ -1,52 +1,39 @@
-import { Component } from 'react'
+import React from 'react'
 import '../styles/globals.css'
 
-export default class MyApp extends Component {
-  state = {
-    todos: [],
-    text: '',
-  }
+export default function MyApp() {
+  const [todos, setTodos] = React.useState(['start a new life with the todo app']);
+  const [text, setText] = React.useState('')
 
-  setText = (e) => this.setState({ text: e.target.value });
-
-  addTodo = (e) => {
+  const addTodo = (e) => {
     e.preventDefault();
-    let { todos, text } =  this.state;
-    todos = todos.concat({ text });
-    this.setState({ todos, text: '' });
+    setTodos([...todos, text]);
+    setText('');
   }
 
-  deleteTodo = (index) => {
-    const oldState = this.state.todos;
-    this.setState({
-      todos: [...oldState.slice(0, index), ...oldState.slice(index + 1)],
-    })
+  const deleteTodo = (index) => {
+    setTodos([...todos.slice(0, index), ...todos.slice(index + 1)])
   }
 
-  render() {
-    return (
-      <div className="container">
-        <form onSubmit={this.addTodo}>
-          <h1>Simplest (minimalism) todo ever</h1>
-          <input onInput={this.setText} value={this.state.text} placeholder="ur fkg todo" />
-          <button type="submit">Add</button>
-
-          <ul>
-            {this.state.todos.map((todo, index) => (
-              <li key={index} onClick={() => this.deleteTodo(index)} >{todo.text}</li>
-            ))}
-          </ul>
-
-        </form>
-
-        <style jsx>{`
-          .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-          }
-        `}</style>
-      </div>
-    )
-  }
+  return (
+    <div className="container">
+      <form onSubmit={addTodo}>
+        <h1>Simplest (minimalism) todo ever</h1>
+        <input onInput={(e) => {setText(e.target.value)}} value={text} placeholder="what needs to be done" />
+        <button type="submit">Add</button>
+        <ul>
+          {todos.map((todo, index) => (
+            <li key={index} onClick={() => deleteTodo(index)} >{todo}</li>
+          ))}
+        </ul>
+      </form>
+      <style global jsx>{`
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+      `}</style>
+    </div>
+  )
 }
